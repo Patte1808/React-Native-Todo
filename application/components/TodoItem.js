@@ -1,18 +1,34 @@
 'use strict';
 
 var React = require('react-native');
+var TodoForm = require('./TodoForm');
 var {
   StyleSheet,
   Text,
+  TouchableHighlight,
 } = React;
 
 var TodoItem = React.createClass({
 
+  _onEditItem: function(item) {
+
+  },
+
+  _onPressItem: function(item) {
+    this.props.navigator.push({
+      title: 'Edit Todo',
+      component: TodoForm,
+      passProps: { item: item }
+    });
+  },
+
   render: function() {
-    var item = this.props.data;
+    var item = this.props.item;
 
     return (
-      <Text>{item.title}</Text>
+      <TouchableHighlight onPress={this.props.onPressItem}>
+        <Text>{item.title}</Text>
+      </TouchableHighlight>
     );
   }
 });

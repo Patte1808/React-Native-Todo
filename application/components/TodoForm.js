@@ -28,25 +28,23 @@ var options = {
 
 var TodoForm = React.createClass({
 
-  onPressSaveButton: function() {
-    var todo = this.refs.form.getValue();
-
-    console.log(todo);
-
-    this.props.onPressSaveButton(todo);
+  onUpdateOrCreateItem: function() {
+    var item = this.refs.form.getValue();
+    var index = (this.props.id || null)
+    this.props.onUpdateOrCreateItem(item, index);
     this.props.navigator.pop();
   },
 
   render: function() {
-
     return (
       <View style={styles.container}>
         <Form
           ref='form'
           type={TodoItem}
           options={options}
+          value={this.props.item}
         />
-        <TouchableHighlight style={styles.button} onPress={this.onPressSaveButton} underlayColor='#99d9f4'>
+        <TouchableHighlight style={styles.button} onPress={this.onUpdateOrCreateItem} underlayColor='#99d9f4'>
           <Text style={styles.buttonText}>Save</Text>
         </TouchableHighlight>
       </View>

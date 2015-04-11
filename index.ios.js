@@ -25,13 +25,28 @@ var Todo = React.createClass({
     };
   },
 
-  onNewTodo: function(todo) {
-    var items = this.state.items.slice();
-    items.push(todo);
-    
+  onPressItem: function(item, id) {
+    this.refs.nav.navigator.push({
+      title: item.title,
+      component: TodoForm,
+      passProps: {item: item, id: id, onUpdateOrCreateItem: this.onUpdateOrCreateItem}
+    });
+  },
+
+  onUpdateOrCreateItem: function(item, index) {
+    var items = this.state.items;
+
+    if(index) {
+      items[index] = item;
+    } else {
+      items.push(item);
+    }
+
     this.setState({
       items: items
     });
+
+    this.refs.nav.navigator.pop();
   },
 
   render: function() {
@@ -42,12 +57,12 @@ var Todo = React.createClass({
         initialRoute={{
           component: TodoList,
           title: 'Your todos',
-          passProps: { items: this.state.items },
+          passProps: { items: this.state.items, onPressItem: this.onPressItem },
           rightButtonTitle: 'New Todo',
           onRightButtonPress: () => { this.refs.nav.navigator.push({
             title: 'New Todo',
             component: TodoForm,
-            passProps: { onPressSaveButton: this.onNewTodo }
+            passProps: { onUpdateOrCreateItem: this.onUpdateOrCreateItem }
             });
           }
         }}

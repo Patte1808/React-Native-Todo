@@ -24,7 +24,8 @@ var TodoList = React.createClass({
         <ListView
           style = {styles.listView}
           dataSource = {dataSource}
-          renderRow={(rowData) => <TodoItem data = {rowData} />}
+          renderRow={(rowData, sectionId, rowId) =>
+            <TodoItem item = {rowData} onPressItem={() => this.props.onPressItem(rowData, rowId)} />}
         />
       </View>
     );
