@@ -1,22 +1,27 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
 'use strict';
 
 var React = require('react-native');
 var {
-  AppRegistry,
   StyleSheet,
-  Text,
-  View,
+  ListView,
 } = React;
 
-var Todo = React.createClass({
+var TodoList = React.createClass({
+
+  componentWillMount: function() {
+    var dataSource = new ListView.DataSource({
+      rowHasChanged: (row1, row2) => row1 !== row2
+    });
+  },
 
   render: function() {
-    return (
+    var dataSource = this.dataSource.cloneWithRows(this.props.todoItems);
 
+    return (
+      <ListView
+        dataSource = {dataSource}
+        renderRow={(rowData) => <TodoItem data = {rowData} />}
+      />
     );
   }
 });
@@ -40,4 +45,4 @@ var styles = StyleSheet.create({
   },
 });
 
-AppRegistry.registerComponent('Todo', () => Todo);
+module.exports = TodoList;
