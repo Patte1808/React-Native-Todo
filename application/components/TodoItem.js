@@ -27,14 +27,23 @@ var TodoItem = React.createClass({
 
     return (
       <TouchableHighlight onPress={this.props.onPressItem}>
-        <Text>{item.title}</Text>
+        <Text>
+          <Text>
+            {item.title}
+          </Text>
+          <Text style={item.completed && styles.completed}>
+            {item.completed && ' (Completed)'}
+          </Text>
+        </Text>
       </TouchableHighlight>
     );
   }
 });
 
 var styles = StyleSheet.create({
-
+  completed: {
+    fontWeight: 'bold',
+  }
 });
 
 module.exports = TodoItem;
