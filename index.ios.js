@@ -6,37 +6,39 @@
 
 var React = require('react-native');
 var TodoList = require('./application/components/TodoList');
+var TodoForm = require('./application/components/TodoForm');
 var {
   AppRegistry,
   StyleSheet,
-  Text,
-  View,
+  NavigatorIOS,
+  Navigator,
 } = React;
 
 var Todo = React.createClass({
 
-  getInitialState: function() {
-    return {
-      todoItems: [
-        {title: 'First todo item', completed: false},
-        {title: 'Second todo item', completed: true}
-      ]
-    };
-  },
-
   render: function() {
     return (
-      <TodoList items = {this.state.todoItems} />
+      <NavigatorIOS
+        ref='nav'
+        style={styles.container}
+        initialRoute={{
+          component: TodoList,
+          title: 'Your todos',
+          rightButtonTitle: 'New Todo',
+          onRightButtonPress: () => { this.refs.nav.navigator.push({
+            title: 'New Todo',
+            component: TodoForm
+            });
+          }
+        }}
+      />
     );
-  }
+  },
 });
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
   },
   welcome: {
     fontSize: 20,
