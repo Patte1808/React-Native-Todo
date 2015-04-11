@@ -15,7 +15,7 @@ var TodoList = React.createClass({
   },
 
   render: function() {
-    var dataSource = this.dataSource.cloneWithRows(this.props.todoItems);
+    var dataSource = this.dataSource.cloneWithRows(this.props.items);
 
     return (
       <ListView
