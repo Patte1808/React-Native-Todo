@@ -10,15 +10,6 @@ var {
 
 var TodoList = React.createClass({
 
-  getInitialState: function() {
-    return {
-      items: [
-        {title: 'First todo item', completed: false},
-        {title: 'Second todo item', completed: true}
-      ]
-    };
-  },
-
   componentWillMount: function() {
     this.dataSource = new ListView.DataSource({
       rowHasChanged: (row1, row2) => row1 !== row2
@@ -26,7 +17,7 @@ var TodoList = React.createClass({
   },
 
   render: function() {
-    var dataSource = this.dataSource.cloneWithRows(this.state.items);
+    var dataSource = this.dataSource.cloneWithRows(this.props.items);
 
     return (
       <View style={styles.container}>
