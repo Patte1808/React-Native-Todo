@@ -21,7 +21,8 @@ var options = {
   fields: {
     title: {
       label: 'Title',
-      placeholder: 'The title of your todo'
+      placeholder: 'The title of your todo',
+      autoFocus: true,
     }
   }
 };
