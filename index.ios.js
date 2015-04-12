@@ -13,17 +13,35 @@ var {
   NavigatorIOS,
   Navigator,
   AlertIOS,
+  ActivityIndicatorIOS,
+  View,
+  Text,
 } = React;
+
+var API_URI = 'http://localhost:3000/api/todo';
 
 var Todo = React.createClass({
 
   getInitialState: function() {
     return {
-      items: [
-        {title: 'First todo item', completed: false},
-        {title: 'Second todo item', completed: true}
-      ]
+      items: null
     };
+  },
+
+  componentDidMount: function() {
+    this.fetchTodos();
+  },
+
+  fetchTodos: function() {
+    fetch(API_URI)
+      .then((response) => response.json())
+      .then((responseText) => {
+        console.log(responseText);
+        this.setState({
+          items: responseText
+        });
+      })
+      .done();
   },
 
   onPressItem: function(item, id) {
@@ -63,14 +81,46 @@ var Todo = React.createClass({
       items.push(item);
     }
 
-    this.setState({
-      items: items
+    var postItem = {
+      title: item.title,
+      completed: item.completed
+    };
+
+    fetch(API_URI, {
+      method: 'POST',
+      body: "title=" + item.title + "&completed=" + item.completed,
+      headers: {
+        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+      },
+    })
+    .then((response) => response.json())
+    .then((responseText) => {
+      this.setState({
+        items: items
+      });
     });
 
     this.refs.nav.navigator.pop();
   },
 
+  renderLoadingView: function() {
+    return (
+      <View style={[styles.container, styles.centering]}>
+        <ActivityIndicatorIOS
+          animating={true}
+          style={[styles.centering, {height: 80}]}
+          size="large"
+        />
+      </View>
+    );
+  },
+
   render: function() {
+
+    if(!this.state.items) {
+      return this.renderLoadingView();
+    }
+
     return (
       <NavigatorIOS
         ref='nav'
@@ -100,15 +150,9 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
+  centering: {
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
 
