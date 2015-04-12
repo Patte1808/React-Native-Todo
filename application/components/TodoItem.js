@@ -6,6 +6,7 @@ var {
   StyleSheet,
   Text,
   TouchableHighlight,
+  View,
 } = React;
 
 var TodoItem = React.createClass({
@@ -26,24 +27,42 @@ var TodoItem = React.createClass({
     var item = this.props.item;
 
     return (
-      <TouchableHighlight onPress={this.props.onPressItem}>
-        <Text>
-          <Text>
-            {item.title}
+      <View style={styles.view}>
+        <TouchableHighlight
+          onPress={this.props.onPressItem}
+          style={styles.highlight}
+          underlayColor={'#34AADC'}>
+          <Text style={styles.textContainer}>
+            <Text>
+              {item.title}
+            </Text>
+            <Text style={item.completed && styles.itemCompleted}>
+              {item.completed && ' (Completed)'}
+            </Text>
           </Text>
-          <Text style={item.completed && styles.completed}>
-            {item.completed && ' (Completed)'}
-          </Text>
-        </Text>
-      </TouchableHighlight>
+        </TouchableHighlight>
+      </View>
     );
   }
 });
 
 var styles = StyleSheet.create({
-  completed: {
+  itemCompleted: {
     fontWeight: 'bold',
-  }
+  },
+  view: {
+    borderBottomWidth: 1,
+    borderColor: '#F7F7F7',
+    height: 40,
+  },
+  highlight: {
+    height: 40,
+    justifyContent: 'center',
+  },
+  textContainer: {
+    marginLeft: 15,
+    fontSize: 16,
+  },
 });
 
 module.exports = TodoItem;

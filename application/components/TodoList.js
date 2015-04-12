@@ -35,12 +35,10 @@ var TodoList = React.createClass({
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    flexDirection: 'column',
   },
   listView: {
-    paddingTop: 100,
+    marginTop: 5,
   }
 });
 
