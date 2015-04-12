@@ -12,6 +12,7 @@ var {
   StyleSheet,
   NavigatorIOS,
   Navigator,
+  AlertIOS,
 } = React;
 
 var Todo = React.createClass({
@@ -30,6 +31,26 @@ var Todo = React.createClass({
       title: item.title,
       component: TodoForm,
       passProps: {item: item, id: id, onUpdateOrCreateItem: this.onUpdateOrCreateItem}
+    });
+  },
+
+  onLongPressItem: function(id) {
+    AlertIOS.alert(
+      'Delete item?',
+      'You can\'t revert the deletion.',
+      [
+        {text: 'Cancel'},
+        {text: 'Delete', onPress: () => this.onDeleteItem(id)},
+      ]
+    );
+  },
+
+  onDeleteItem: function(index) {
+    var items = this.state.items;
+    items.splice(index, 1);
+
+    this.setState({
+      items: items
     });
   },
 
@@ -57,7 +78,11 @@ var Todo = React.createClass({
         initialRoute={{
           component: TodoList,
           title: 'Your todos',
-          passProps: { items: this.state.items, onPressItem: this.onPressItem },
+          passProps: {
+            items: this.state.items,
+            onPressItem: this.onPressItem,
+            onLongPressItem: this.onLongPressItem
+          },
           rightButtonTitle: 'New Todo',
           onRightButtonPress: () => { this.refs.nav.navigator.push({
             title: 'New Todo',

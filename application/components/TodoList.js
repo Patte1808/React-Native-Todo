@@ -25,7 +25,11 @@ var TodoList = React.createClass({
           style = {styles.listView}
           dataSource = {dataSource}
           renderRow={(rowData, sectionId, rowId) =>
-            <TodoItem item = {rowData} onPressItem={() => this.props.onPressItem(rowData, rowId)} />}
+            <TodoItem
+              item = {rowData}
+              onPressItem={() => this.props.onPressItem(rowData, rowId)}
+              onLongPressItem={() => this.props.onLongPressItem(rowId)}
+            />}
         />
       </View>
     );

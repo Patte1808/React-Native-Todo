@@ -10,19 +10,7 @@ var {
 } = React;
 
 var TodoItem = React.createClass({
-
-  _onEditItem: function(item) {
-
-  },
-
-  _onPressItem: function(item) {
-    this.props.navigator.push({
-      title: 'Edit Todo',
-      component: TodoForm,
-      passProps: { item: item }
-    });
-  },
-
+  
   render: function() {
     var item = this.props.item;
 
@@ -30,6 +18,7 @@ var TodoItem = React.createClass({
       <View style={styles.view}>
         <TouchableHighlight
           onPress={this.props.onPressItem}
+          onLongPress={this.props.onLongPressItem}
           style={styles.highlight}
           underlayColor={'#34AADC'}>
           <Text style={styles.textContainer}>
